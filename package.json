@@ -29,7 +29,7 @@
     "lint": "npx eslint src/**/*.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Danila",
   "license": "ISC",
   "description": ""
 }
