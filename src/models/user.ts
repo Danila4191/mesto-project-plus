@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import validatorUrl from '../utils/utils';
 
 const userSchema = new mongoose.Schema(
   {
@@ -12,6 +13,11 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String, // — это строка
       required: true, // имя — обязательное поле
+      validate: {
+        validator(v:string) {
+          return validatorUrl.test(v);
+        },
+      },
     },
     about: {
       type: String,
