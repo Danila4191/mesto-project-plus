@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 import { validatorUrl } from '../utils/utils';
 
@@ -36,3 +37,4 @@ const cardSchema = new mongoose.Schema(
 );
 const Card = mongoose.model('card', cardSchema);
 export default Card;
+

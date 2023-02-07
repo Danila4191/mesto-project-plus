@@ -1,3 +1,4 @@
+
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
@@ -13,6 +14,7 @@ const bcrypt = require('bcryptjs');
 
 const { JWT = 'обход линта' } = process.env;
 export const GetUsers = async (req: Request, res: Response, next:NextFunction) => {
+
   try {
     const users = await User.find({});
     return res.status(200).send(users);
@@ -23,15 +25,19 @@ export const GetUsers = async (req: Request, res: Response, next:NextFunction) =
 };
 
 export const GetUserById = async (req: Request, res: Response, next:NextFunction) => {
+
   try {
     const { userId } = req.params;
     const user = await User.findById(userId);
     if (!user) {
+
       throw new NotFoundErr('Такого пользователя не существует');
+
     }
     return res.status(200).send(user);
   } catch (err) {
     console.log(err);
+
     next(err);
   }
 };
@@ -82,6 +88,7 @@ export const CreateUser = async (req: Request, res: Response, next:NextFunction)
       throw new BadRequestErr('Пароль пустой');
     }
     req.body.password = await bcrypt.hash(req.body.password, 8);
+
     const newUser = await User.create(req.body);
     return res.status(201).send(newUser);
   } catch (err) {
@@ -132,3 +139,4 @@ export const GetUserMe = async (req: RequestCustom, res: Response, next:NextFunc
     next(err);
   }
 };
+

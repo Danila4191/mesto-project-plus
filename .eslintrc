@@ -18,7 +18,6 @@
     },
     "import/extensions": [".js", ".ts"]
   },
-
   "rules": {
     "no-underscore-dangle": [
       "error",
@@ -30,6 +29,7 @@
     ],
     "import/extensions": [
       "error",
+
       "ignorePackages",
       {
         "js": "never",
@@ -38,3 +38,4 @@
     ]
   }
 }
+

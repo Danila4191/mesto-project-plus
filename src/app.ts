@@ -1,3 +1,4 @@
+
 import './env';
 import express, {
   json,
@@ -34,9 +35,11 @@ async function startApp() {
     await mongoose.connect(DB_URL);
     console.log('DB UP');
     await app.listen(PORT);
+
     console.log(`App listening on port ${PORT}`);
   } catch (err) {
     console.log(err);
   }
 }
 startApp();
+

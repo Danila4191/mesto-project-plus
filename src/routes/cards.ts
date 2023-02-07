@@ -1,3 +1,4 @@
+
 import { Router } from 'express';
 import {
   GetCards,
@@ -24,3 +25,4 @@ cardRouter.post('/', validateCreateCard, CreateCard);
 cardRouter.put('/:cardId/likes', validatePutLike, GetLike);
 cardRouter.delete('/:cardId/likes', validateDeleteLike, DeleteLike);
 export default cardRouter;
+

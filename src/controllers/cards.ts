@@ -1,3 +1,4 @@
+
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Card from '../models/card';
@@ -7,16 +8,19 @@ import NotFoundErr from '../errors/not-found';
 import AccessErr from '../errors/access';
 
 export const GetCards = async (req: RequestCustom, res: Response, next:NextFunction) => {
+
   try {
     const cards = await Card.find({});
     return res.status(200).send(cards);
   } catch (err) {
+
     console.log(err);
     next(err);
   }
 };
 
 export const CreateCard = async (req: RequestCustom, res: Response, next:NextFunction) => {
+
   try {
     const newCard = await Card.create({
       name: req.body.name,
@@ -28,6 +32,7 @@ export const CreateCard = async (req: RequestCustom, res: Response, next:NextFun
     return res.status(200).send(newCard);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
+
       next(new BadRequestErr(err.message));
     } else {
       console.log(err);
@@ -74,6 +79,7 @@ export const GetLike = async (req: Request, res: Response, next:NextFunction) =>
   }
 };
 export const DeleteLike = async (req: Request, res: Response, next:NextFunction) => {
+
   try {
     const { cardId } = req.params;
     const card = await Card.findByIdAndUpdate(
@@ -92,5 +98,6 @@ export const DeleteLike = async (req: Request, res: Response, next:NextFunction)
       console.log(err);
       next(err);
     }
+
   }
 };

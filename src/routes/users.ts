@@ -1,3 +1,4 @@
+
 import { Router } from 'express';
 import {
   GetUsers,
@@ -29,3 +30,4 @@ userRouter.patch('/me/avatar', validateUpdateAvatar, UpdateAvatar);
 userRouter.patch('/me', validateUpdateMe, UpdateUser);
 userRouter.get('/me', validateGetMe, GetUserMe);
 export default userRouter;
+
