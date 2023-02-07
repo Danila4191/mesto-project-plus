@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import validatorUrl from '../utils/utils';
+import { validatorUrl } from '../utils/utils';
 
 const cardSchema = new mongoose.Schema(
   {

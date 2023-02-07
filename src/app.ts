@@ -1,26 +1,33 @@
 import './env';
 import express, {
   json,
-  NextFunction,
-  Response,
 } from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
-import { RequestCustom } from './types/types';
+import errorHandler from './middlewares/error-handler';
 import router from './routes/index';
+import { requestLogger, errorLogger } from './middlewares/logger';
+
+const rateLimit = require('express-rate-limit');
+const { errors } = require('celebrate');
 
 const app = express();
 const { PORT = 123, DB_URL = 'http//обход_линтера' } = process.env;
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // за 15 минут
+  max: 100, // можно совершить максимум 100 запросов с одного IP
+});
+app.use(limiter);
+app.use(express.urlencoded({ extended: true }));
 app.use(json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use((req: RequestCustom, res: Response, next: NextFunction) => {
-  req.body.user = {
-    _id: '63dc5d624617a17f0791cf31',
-  };
-  next();
-});
+app.use(requestLogger);
 app.use(router);
+app.use(errorLogger);
+app.use(errors());
+app.use(errorHandler);
+
 async function startApp() {
   try {
     mongoose.set('strictQuery', false);

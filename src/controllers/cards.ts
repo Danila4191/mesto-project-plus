@@ -1,49 +1,58 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Card from '../models/card';
 import { RequestCustom } from '../types/types';
+import BadRequestErr from '../errors/bad-Request';
+import NotFoundErr from '../errors/not-found';
+import AccessErr from '../errors/access';
 
-export const GetCards = async (req: RequestCustom, res: Response) => {
+export const GetCards = async (req: RequestCustom, res: Response, next:NextFunction) => {
   try {
     const cards = await Card.find({});
     return res.status(200).send(cards);
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ message: 'На сервере произошла ошибка' });
+    next(err);
   }
 };
-export const CreateCard = async (req: RequestCustom, res: Response) => {
+
+export const CreateCard = async (req: RequestCustom, res: Response, next:NextFunction) => {
   try {
     const newCard = await Card.create({
       name: req.body.name,
       link: req.body.link,
       createdAt: new Date(),
       likes: [],
-      owner: req.body.user?._id,
+      owner: req.user?._id,
     });
     return res.status(200).send(newCard);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
-      return res.status(400).send({ message: err.message });
+      next(new BadRequestErr(err.message));
+    } else {
+      console.log(err);
+      next(err);
     }
-    console.log(err);
-    return res.status(500).send({ message: 'На сервере произошла ошибка' });
   }
 };
-export const DeleteCard = async (req: Request, res: Response) => {
+export const DeleteCard = async (req: RequestCustom, res: Response, next:NextFunction) => {
   try {
     const { cardId } = req.params;
+    const cardOwner = await Card.findById(cardId);
+    if (req.user?._id.toString() !== cardOwner?.owner.toString()) {
+      throw new AccessErr('Ошибка доступа, это не ваша карточка');
+    }
     const card = await Card.findByIdAndRemove(cardId);
     if (!card) {
-      return res.status(404).send({ message: 'Такого карточки не существует' });
+      throw new NotFoundErr('Такой карточки не существует');
     }
     return res.status(200).send(card);
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ message: 'На сервере произошла ошибка' });
+    next(err);
   }
 };
-export const GetLike = async (req: Request, res: Response) => {
+export const GetLike = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { cardId } = req.params;
     const card = await Card.findByIdAndUpdate(
@@ -52,21 +61,19 @@ export const GetLike = async (req: Request, res: Response) => {
       { new: true },
     );
     if (!card) {
-      // const error = new Error("Такого пользователя не существует");
-      // error.name = "Not found";
-      // throw error;
-      return res.status(404).send({ message: 'Такого карточки не существует' });
+      throw new NotFoundErr('Такой карточки не существует');
     }
     return res.status(200).send(card);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
-      return res.status(400).send({ message: err.message });
+      next(new BadRequestErr(err.message));
+    } else {
+      console.log(err);
+      next(err);
     }
-    console.log(err);
-    return res.status(500).send({ message: 'На сервере произошла ошибка' });
   }
 };
-export const DeleteLike = async (req: Request, res: Response) => {
+export const DeleteLike = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { cardId } = req.params;
     const card = await Card.findByIdAndUpdate(
@@ -75,17 +82,15 @@ export const DeleteLike = async (req: Request, res: Response) => {
       { new: true },
     );
     if (!card) {
-      // const error = new Error("Такого пользователя не существует");
-      // error.name = "Not found";
-      // throw error;
-      return res.status(404).send({ message: 'Такого карточки не существует' });
+      throw new NotFoundErr('Такой карточки не существует');
     }
     return res.status(200).send(card);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
-      return res.status(400).send({ message: err.message });
+      next(new BadRequestErr(err.message));
+    } else {
+      console.log(err);
+      next(err);
     }
-    console.log(err);
-    return res.status(500).send({ message: 'На сервере произошла ошибка' });
   }
 };
