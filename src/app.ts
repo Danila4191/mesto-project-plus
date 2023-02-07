@@ -11,7 +11,6 @@ import { requestLogger, errorLogger } from './middlewares/logger';
 const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 
-
 const app = express();
 const { PORT = 123, DB_URL = 'http//обход_линтера' } = process.env;
 

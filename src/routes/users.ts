@@ -20,12 +20,12 @@ import {
 } from '../middlewares/validation';
 
 const userRouter = Router();
-userRouter.post('/signin', Login);
+userRouter.post('/signin', validateLoginBody, Login);
 userRouter.post('/signup', validateRegisterBody, CreateUser);
 userRouter.use(auth);
-userRouter.get('/', GetUsers);
-userRouter.get('/id:userId', GetUserById);
-userRouter.patch('/me/avatar', UpdateAvatar);
-userRouter.patch('/me', UpdateUser);
-userRouter.get('/me', GetUserMe);
+userRouter.get('/', validateGetUsers, GetUsers);
+userRouter.get('/id:userId', validateGetUser, GetUserById);
+userRouter.patch('/me/avatar', validateUpdateAvatar, UpdateAvatar);
+userRouter.patch('/me', validateUpdateMe, UpdateUser);
+userRouter.get('/me', validateGetMe, GetUserMe);
 export default userRouter;

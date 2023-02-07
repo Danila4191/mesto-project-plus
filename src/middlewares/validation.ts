@@ -27,9 +27,6 @@ export const validateGetUser = celebrate({
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
   }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
-  }),
 });
 export const validateUpdateAvatar = celebrate({
   headers: Joi.object().keys({
@@ -37,9 +34,6 @@ export const validateUpdateAvatar = celebrate({
   }),
   body: Joi.object().keys({
     avatar: Joi.string().required().min(5),
-  }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
   }),
 });
 
@@ -54,24 +48,15 @@ export const validateUpdateMe = celebrate({
     avatar: Joi.string().min(5),
     about: Joi.string().min(2).max(30),
   }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
-  }),
 });
 export const validateGetMe = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
   }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
-  }),
 });
 export const validateGetCards = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
   }),
 });
 export const validateCardDelete = celebrate({
@@ -80,9 +65,6 @@ export const validateCardDelete = celebrate({
   }),
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
-  }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
   }),
 });
 export const validateCreateCard = celebrate({
@@ -93,9 +75,6 @@ export const validateCreateCard = celebrate({
     name: Joi.string().required().min(2).max(30),
     link: Joi.string().required().min(5),
   }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
-  }),
 });
 export const validatePutLike = celebrate({
   headers: Joi.object().keys({
@@ -104,9 +83,6 @@ export const validatePutLike = celebrate({
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
   }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
-  }),
 });
 export const validateDeleteLike = celebrate({
   headers: Joi.object().keys({
@@ -114,8 +90,5 @@ export const validateDeleteLike = celebrate({
   }),
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
-  }),
-  user: Joi.object().keys({
-    _id: Joi.string().required(),
   }),
 });
