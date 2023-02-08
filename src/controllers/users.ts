@@ -35,6 +35,7 @@ export const GetUserById = async (req: Request, res: Response, next:NextFunction
     next(err);
   }
 };
+
 export const UpdateUser = async (req: RequestCustom, res: Response, next:NextFunction) => {
   try {
     const user = await User.findByIdAndUpdate(req.user?._id, {
