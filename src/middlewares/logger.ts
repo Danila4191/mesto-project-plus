@@ -15,7 +15,7 @@ const transport = new winston.transports.DailyRotateFile({
   // указываем формат имени файла
   filename: 'error.log',
   // указываем шаблон для даты
-  datePattern: 'YYYY-MM-DD-HH',
+  // datePattern: 'YYYY-MM-DD-HH',
   maxSize: '20m',
   maxFiles: 14,
 });
