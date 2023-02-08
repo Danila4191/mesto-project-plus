@@ -2,7 +2,6 @@ import './env';
 import express, {
   json,
 } from 'express';
-import path from 'path';
 import mongoose from 'mongoose';
 import errorHandler from './middlewares/error-handler';
 import router from './routes/index';
@@ -12,7 +11,7 @@ const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 
 const app = express();
-const { PORT = 123, DB_URL = 'http//обход_линтера' } = process.env;
+const { PORT = 123, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // за 15 минут
@@ -21,7 +20,6 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(express.urlencoded({ extended: true }));
 app.use(json());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(requestLogger);
 app.use(router);
 app.use(errorLogger);

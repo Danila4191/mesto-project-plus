@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import mongoose from 'mongoose';
 import Card from '../models/card';
 import { RequestCustom } from '../types/types';
@@ -52,13 +52,13 @@ export const DeleteCard = async (req: RequestCustom, res: Response, next:NextFun
     next(err);
   }
 };
-export const GetLike = async (req: Request, res: Response, next:NextFunction) => {
+export const GetLike = async (req: RequestCustom, res: Response, next:NextFunction) => {
   try {
     const { cardId } = req.params;
     const card = await Card.findByIdAndUpdate(
       cardId,
-      { $addToSet: { likes: req.body.user._id } },
-      { new: true },
+      { $addToSet: { likes: req.user?._id } },
+      { runValidators: true, new: true },
     );
     if (!card) {
       throw new NotFoundErr('Такой карточки не существует');
@@ -73,13 +73,13 @@ export const GetLike = async (req: Request, res: Response, next:NextFunction) =>
     }
   }
 };
-export const DeleteLike = async (req: Request, res: Response, next:NextFunction) => {
+export const DeleteLike = async (req:RequestCustom, res: Response, next:NextFunction) => {
   try {
     const { cardId } = req.params;
     const card = await Card.findByIdAndUpdate(
       cardId,
-      { $pull: { likes: req.body.user._id } },
-      { new: true },
+      { $pull: { likes: req.user?._id } },
+      { runValidators: true, new: true },
     );
     if (!card) {
       throw new NotFoundErr('Такой карточки не существует');

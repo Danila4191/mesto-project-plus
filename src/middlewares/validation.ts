@@ -23,15 +23,15 @@ export const validateGetUsers = celebrate({
 export const validateGetUser = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
-  }),
+  }).unknown(true),
 });
 export const validateUpdateAvatar = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
   body: Joi.object().keys({
     avatar: Joi.string().required().min(5),
   }),
@@ -40,7 +40,7 @@ export const validateUpdateAvatar = celebrate({
 export const validateUpdateMe = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
   body: Joi.object().keys({
     email: Joi.string().email(),
     password: Joi.string().min(8),
@@ -52,25 +52,25 @@ export const validateUpdateMe = celebrate({
 export const validateGetMe = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
 });
 export const validateGetCards = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
 });
 export const validateCardDelete = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
-  }),
+  }).unknown(true),
 });
 export const validateCreateCard = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     link: Joi.string().required().min(5),
@@ -79,16 +79,16 @@ export const validateCreateCard = celebrate({
 export const validatePutLike = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
-  }),
+  }).unknown(true),
 });
 export const validateDeleteLike = celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
   params: Joi.object().keys({
     postId: Joi.string().alphanum(),
-  }),
+  }).unknown(true),
 });

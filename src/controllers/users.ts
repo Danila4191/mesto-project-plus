@@ -35,12 +35,12 @@ export const GetUserById = async (req: Request, res: Response, next:NextFunction
     next(err);
   }
 };
-export const UpdateUser = async (req: Request, res: Response, next:NextFunction) => {
+export const UpdateUser = async (req: RequestCustom, res: Response, next:NextFunction) => {
   try {
-    const user = await User.findByIdAndUpdate(req.body.user._id, {
+    const user = await User.findByIdAndUpdate(req.user?._id, {
       name: req.body.name,
       about: req.body.about,
-    }, { new: true });
+    }, { runValidators: true, new: true });
     if (!user) {
       throw new NotFoundErr('Такого пользователя не существует');
     }
@@ -54,11 +54,11 @@ export const UpdateUser = async (req: Request, res: Response, next:NextFunction)
     }
   }
 };
-export const UpdateAvatar = async (req: Request, res: Response, next:NextFunction) => {
+export const UpdateAvatar = async (req: RequestCustom, res: Response, next:NextFunction) => {
   try {
-    const user = await User.findByIdAndUpdate(req.body.user._id, {
+    const user = await User.findByIdAndUpdate(req.user?._id, {
       avatar: req.body.avatar,
-    }, { new: true });
+    }, { runValidators: true, new: true });
     if (!user) {
       throw new NotFoundErr('Такого пользователя не существует');
     }
